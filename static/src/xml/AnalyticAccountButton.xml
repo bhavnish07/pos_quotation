@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="AnalyticAccountButton" owl="1">
+        <span class="control-button analytic-account">
+            <span> </span>
+            <span><t t-if="state.analyticAccount">
+                    <t t-esc="state.analyticAccount"/>
+                </t>
+                <t t-else="">
+                  Analytic Account
+                </t></span>
+
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pos_config_form_inherit" model="ir.ui.view">
+            <field name="name">point_of_sale.pos_config.form</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='pricing']" position="after">
+                    <h2>Analytics</h2>
+                    <div class="row mt16 o_settings_container" groups="analytic.group_analytic_accounting">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Choose a specific fiscal position at the order depending on the kind of customer (tax exempt, onsite vs. takeaway, etc.).">
+                            <div class="o_setting_left_pane">
+                                <field name="analytic_accounts"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="analytic_accounts" string="Analytic Accounts"/>
+                                <div class="text-muted">
+                                    Choose among Analytic Accounts when processing an order
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('analytic_accounts', '=', False)]}">
+                                    <div class="mt16">
+                                        <field name="analytic_account_ids" widget="many2many_tags" options="{'no_create': True}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    </div>
+                                    <div>
+                                        <button name="%(analytic.action_account_analytic_account_form)d" icon="fa-arrow-right" type="action" string="Analytic Accounts" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" groups="analytic.group_analytic_tags">
+                            <div class="o_setting_left_pane">
+                                <field name="analytic_tags"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="analytic_tags" string="Analytic Tags"/>
+                                <div class="text-muted">
+                                     Choose among Analytic tags when processing an order
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('analytic_tags', '=', False)]}">
+                                    <div class="mt16">
+                                        <field name="account_analytic_tags"  widget="many2many_tags" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    </div>
+                                    <div>
+                                        <button name="%(analytic.account_analytic_tag_action)d" icon="fa-arrow-right" type="action" string="Analytic Tags" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
