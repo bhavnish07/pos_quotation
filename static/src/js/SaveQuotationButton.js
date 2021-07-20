@@ -30,7 +30,7 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                 kwargs: {context: this.env.session.user_context},
             })
             const { confirmed, payload, print } = await this.showPopup('SaveQuotationPopUp',{
-                title: this.env._t('SaveQuotation'),
+                title: this.env._t('Save Quotation'),
                 startingValue: '',
                 quotationNumber: quotation_number,
                 customer: this.client ? this.client.name : 'Not Selected'

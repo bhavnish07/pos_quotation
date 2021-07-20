@@ -13,8 +13,10 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
 			var self = this;
 			this.selectedQuoteId = null;
 			this.selectedQuote = null;
-
-			this.state = useState({ quotations: [] });
+//			this.notesRef = useRef('notes');
+//            this.customerRef = useRef('customer');
+            this.quotationDetailsRef = useRef('quotation_details');
+			this.state = useState({ quotations: [] , notes: '', customer: null, date: null, totalAmount: null, status: null});
             this.inputRef = useRef('input');
             this.dropDownRef = useRef('drop-down')
             useListener('select-quote', this.selectQuote);
@@ -27,13 +29,19 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
 
         selectQuote(event) {
             const { selectedQuoteId, selectedQuote } = event.detail;
-            this.selectQuoteId = selectedQuoteId;
             this.selectedQuote = selectedQuote;
-             $(this.inputRef.el).val(this.selectedQuote.ref);
+             $(this.inputRef.el).val(selectedQuote.ref);
             $(this.dropDownRef.el).hide();
+            this.state.date = selectedQuote.quotation_date;
+            this.state.totalAmount = selectedQuote.amount_total;
+            this.state.status = selectedQuote.state;
+            this.state.notes = selectedQuote.notes;
+            this.state.customer = selectedQuote.partner_id ? selectedQuote.partner_id[2] : "";
+            $(this.quotationDetailsRef.el).show();
         }
 
         async fetchQuotations(event) {
+            $(this.quotationDetailsRef.el).hide();
             $(this.dropDownRef.el).show();
             const { quotations } = await this._fetchQuotations(event.currentTarget.value)
             this.state.quotations = quotations;
@@ -68,6 +76,10 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
                   method: 'search_read',
                   args: [domain],
                 }).then(function (quotations) {
+                    if (quotations.length == 0)
+                    {
+
+                    }
                     resolve({'quotations': quotations});
                 });
             });

@@ -15,7 +15,8 @@
                             <td>
                                 <input id="load_quotation_id" style="relative" placeholder="--Quotation Identifier--"
                                        class="detail" t-model="props.value" t-ref="input"/>
-                                <div class="quotations_suggestions" style="display: none;" id="quotation_suggestion_id" t-ref="drop-down">
+                                <div class="quotations_suggestions" style="display: none;" id="quotation_suggestion_id"
+                                     t-ref="drop-down">
                                     <ul style="display: block;">
 
                                         <t t-foreach="state.quotations" t-as="quotation" t-key="quotation.ref">
@@ -31,7 +32,7 @@
                             </td>
                         </tr>
                     </table>
-                    <div width="80%"
+                    <div width="80%" t-ref="quotation_details"
                          style="color: rgb(59, 79, 43); font-size: smaller; height: 100px; padding: 6%; text-align: justify; margin-top: 7%; background-color: rgb(186, 224, 155);display:none;"
                          class="quotation_details">
                         <table>
@@ -41,34 +42,59 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div style="font-size:16px;padding-left:10px" class="quotation_customer_name"/>
+                                    <div style="font-size:16px;padding-left:10px" class="quotation_customer_name">
+                                        <t t-esc="state.customer"/>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Date :</div>
-                                </td>
-                                <td>
-                                    <div style="font-size:16px;padding-left:10px" class="quotation_order_date"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Total Amount
-                                        :
+                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Date :
                                     </div>
                                 </td>
                                 <td>
-                                    <div style="font-size:16px;padding-left:10px" class="quotation_amount_total"/>
+                                    <div style="font-size:16px;padding-left:10px" class="quotation_order_date">
+                                        <t t-esc="state.date"/>
+                                    </div>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Status :</div>
+                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Total Amount :
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-size:16px;padding-left:10px" class="quotation_amount_total">
+                                        <t t-esc="state.totalAmount"/>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Status :
+                                    </div>
                                 </td>
                                 <td>
                                     <div style="font-size:16px;padding-left:10px"
-                                         class="quotation_quotation_status"/>
+                                         class="quotation_quotation_status">
+                                        <t t-esc="state.status"/>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-size:16px;margin-left:11px; width:170px;height:20px">Notes :
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-size:16px;padding-left:10px"
+                                         class="quotation_quotation_status">
+                                        <t t-esc="state.notes"/>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -79,15 +105,30 @@
                               class="fa fa-warning"/>
                     </div>
                 </div>
+
+                <!--                 <div class="div">-->
+                <!--                    <div class="flex-justify-content">-->
+                <!--                        <div class="quote-id">Customer:</div>-->
+                <!--                        <div class="quote-id-value"><t t-esc="state.customer" t-ref="customer"/></div>-->
+
+                <!--                    </div>-->
+                <!--                    <div class="flex-justify-content">-->
+                <!--                        <div class="note-save-quotation">Note:</div>-->
+                <!--                        <div>-->
+                <!--                             <textarea id="text_area" t-model="state.notes" t-ref="textarea" rows="3" cols="30"/>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
                 <div class="footer">
-                    <div>
-                        <div class="button confirm" t-on-click="confirm">
-                            <t t-esc="props.confirmText"/>
-                        </div>
-                    </div>
                     <div>
                         <div class="button cancel" t-on-click="cancel">
                             <t t-esc="props.cancelText"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="button confirm" t-on-click="confirm">
+                            <t t-esc="props.confirmText"/>
                         </div>
                     </div>
                 </div>

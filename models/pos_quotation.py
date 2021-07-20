@@ -72,6 +72,16 @@ class POSQuotation(models.Model):
             'analytic_account_id': self.analytic_account_id.id,
         }
 
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        results = super(POSQuotation, self).search_read(domain, fields, offset, limit, order)
+        for res in results:
+            if res['partner_id']:
+                customer_name = self.env['res.partner'].browse(res['partner_id'][0]).name
+                res['partner_id'] = list(res['partner_id'])
+                res['partner_id'].append(customer_name)
+        return results
+
 
 class POSQuotationLines(models.Model):
     _name = "pos.quotation.line"

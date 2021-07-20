@@ -19,7 +19,7 @@ odoo.define("pos_quotation.LoadQuotationButton", function(require){
 
             const { confirmed, payload: selectedQuotation } = await this.showPopup(
                 'LoadQuotationPopup', {
-                    title: this.env._t('Select the Quotation'),
+                    title: this.env._t('Select Quotation'),
                     confirmText: this.env._t('Load'),
                     cancelText: this.env._t('Cancel'),
                 }
