@@ -33,9 +33,13 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                 title: this.env._t('SaveQuotation'),
                 startingValue: '',
                 quotationNumber: quotation_number,
+                customer: this.client ? this.client.name : 'Not Selected'
             });
             if (confirmed) {
-                if (!this.currentOrder) return ;
+                if (!this.currentOrder.export_as_JSON().lines.length){
+                    alert("Please select product before saving");
+                    return;
+                }
                 if (print) {
                     self.showScreen("ReceiptScreen");
                 }
@@ -53,7 +57,9 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                             self.currentOrder.remove_orderline(self.currentOrder.orderlines.models[0])
                         }
                         self.env.pos.db.add_quotations(result[0]);
+
                     }
+                    alert("Quotation Saved");
                 });
             }
         }

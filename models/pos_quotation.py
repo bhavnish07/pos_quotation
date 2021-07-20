@@ -44,7 +44,7 @@ class POSQuotation(models.Model):
     @api.model
     def get_quotation_number(self):
         sequence = self.env.ref('pos_quotation.sequence_quote_sequence')
-        return sequence._next()
+        return sequence.prefix + str(sequence.number_next)
 
     @api.model
     def create_quotation(self, vals):

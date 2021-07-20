@@ -13,23 +13,28 @@
                         <div class="quote-id-value"><t t-esc="props.quotationNumber"/></div>
                     </div>
                     <div class="flex-justify-content">
+                        <div class="quote-id">Customer:</div>
+                        <div class="quote-id-value"><t t-esc="props.customer"/></div>
+                    </div>
+                    <div class="flex-justify-content">
                         <div class="note-save-quotation">Note:</div>
                         <div>
                              <textarea id="text_area" t-model="state.inputValue" t-ref="textarea" rows="3" cols="30"/>
                         </div>
                     </div>
+
                 </div>
                 <div class="footer">
                     <div>
-                        <div class="button confirm" t-on-click="confirmPrint">Save &amp; Print</div>
+                        <div class="button cancel" t-on-click="cancel">
+                            <t t-esc="props.cancelText"/>
+                        </div>
                          <div class="button confirm" t-on-click="confirm">
                             <t t-esc="props.confirmText"/>
                         </div>
                     </div>
                     <div>
-                        <div class="button cancel" t-on-click="cancel">
-                            <t t-esc="props.cancelText"/>
-                        </div>
+                        <div class="button confirm" t-on-click="confirmPrint">Save &amp; Print</div>
                     </div>
                 </div>
             </div>

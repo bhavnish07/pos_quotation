@@ -8,7 +8,7 @@ odoo.define('pos_quotation.SaveQuotationPopUp', function(require) {
     class SaveQuotationPopUp extends AbstractAwaitablePopup {
         constructor() {
             super(...arguments);
-            this.state = useState({ inputValue: this.props.startingValue, quotationNumber: this.props.quotationNumber });
+            this.state = useState({ inputValue: this.props.startingValue, quotationNumber: this.props.quotationNumber, customer: this.props.customer});
             this.inputRef = useRef('textarea');
         }
         mounted() {
