@@ -32,7 +32,15 @@ odoo.define('pos_quotation.SaveQuotationPopUp', function(require) {
         }
     }
 
+    class SaveQuotationError extends AbstractAwaitablePopup {
+      constructor() {
+            super(...arguments);
+             }
+    }
+
     SaveQuotationPopUp.template = 'SaveQuotationPopUp';
+    SaveQuotationError.template = 'SaveQuotationError';
+
     SaveQuotationPopUp.defaultProps = {
         confirmText: 'Save',
         cancelText: 'Cancel',
@@ -40,8 +48,16 @@ odoo.define('pos_quotation.SaveQuotationPopUp', function(require) {
         body: '',
         startingValue: '',
     };
+    SaveQuotationError.defaultProps = {
+        confirmText: 'Save',
+        cancelText: 'Cancel',
+        title: 'Warning',
+        body: 'Please make sure you are connected to the network.',
+        startingValue: '',
+    };
 
     Registries.Component.add(SaveQuotationPopUp);
+    Registries.Component.add(SaveQuotationError);
 
     return SaveQuotationPopUp;
 });

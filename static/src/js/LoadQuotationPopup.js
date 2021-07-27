@@ -13,8 +13,6 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
 			var self = this;
 			this.selectedQuoteId = null;
 			this.selectedQuote = null;
-//			this.notesRef = useRef('notes');
-//            this.customerRef = useRef('customer');
             this.quotationDetailsRef = useRef('quotation_details');
 			this.state = useState({ quotations: [] , notes: '', customer: null, date: null, totalAmount: null, status: null});
             this.inputRef = useRef('input');
@@ -54,11 +52,14 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
 
         async confirm() {
             if (!this.selectedQuote) {
-                alert("Please Select Quotation");
-                return ;
-            }
+                this.showPopup('SaveQuotationError', {
+                        body: this.env._t('Please Select Quotation'),
+				    });
+                    return;
+                }
             this.props.resolve({ confirmed: true, payload: await this.getPayload() });
             this.trigger('close-popup');
+
         }
 
 
@@ -75,16 +76,25 @@ odoo.define("pos_quotation.LoadQuotationPopup", function(require){
                   model: 'pos.quotation',
                   method: 'search_read',
                   args: [domain],
-                }).then(function (quotations) {
-                    if (quotations.length == 0)
-                    {
+                }).catch(function(unused, event) {
+                self.showPopup('SaveQuotationError', {
 
+                });
+                return;
+			     })
+                .then(function (quotations) {
+                    if (quotations){
+                        quotations.reverse()
                     }
                     resolve({'quotations': quotations});
+
                 });
             });
         }
     }
+
+
+
     LoadQuotationPopup.template = 'LoadQuotationPopUp';
     LoadQuotationPopup.defaultProps = { title: 'Confirm ?', value:'',  };
     Registries.Component.add(LoadQuotationPopup);

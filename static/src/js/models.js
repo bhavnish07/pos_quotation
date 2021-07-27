@@ -96,7 +96,8 @@ odoo.define("pos.quotation", function(require) {
                 if (quotation) {
                     receipt['quotation'] = {
                         name: quotation.ref,
-                        id: quotation.id
+                        id: quotation.id,
+
                     }
                 }
             }

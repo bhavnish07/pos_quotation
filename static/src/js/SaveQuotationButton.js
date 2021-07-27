@@ -22,22 +22,32 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
         }
 
         async onClick() {
+            var quotation_number = null;
             var self = this;
-            const quotation_number = await this.rpc({
+            try{quotation_number = await this.rpc({
                  model: 'pos.quotation',
                 method: 'get_quotation_number',
                 args: [],
                 kwargs: {context: this.env.session.user_context},
-            })
+            })}
+            catch(error){
+			    self.showPopup('SaveQuotationError', {
+				});
+				return;
+			}
+
             const { confirmed, payload, print } = await this.showPopup('SaveQuotationPopUp',{
                 title: this.env._t('Save Quotation'),
                 startingValue: '',
                 quotationNumber: quotation_number,
                 customer: this.client ? this.client.name : 'Not Selected'
             });
+
             if (confirmed) {
                 if (!this.currentOrder.export_as_JSON().lines.length){
-                    alert("Please select product before saving");
+                    self.showPopup('SaveQuotationError', {
+                            body: self.env._t('Please select product before saving'),
+				    });
                     return;
                 }
                 if (print) {
@@ -49,7 +59,12 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                     method: 'create_quotation',
                     args: [val],
                     kwargs: {context: this.env.session.user_context},
-                }).then((result) => {
+                }).catch(function(unused, event) {
+			    self.showPopup('SaveQuotationError', {
+				 });
+				return;
+			     })
+                .then((result) => {
                     if (result) {
                         self.env.pos.quotation_number = result[1];
                         let counter = self.currentOrder.orderlines.length
@@ -59,7 +74,11 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                         self.env.pos.db.add_quotations(result[0]);
 
                     }
-                    alert("Quotation Saved");
+                    self.showPopup('SaveQuotationError', {
+                            body: self.env._t('Quotation Saved'),
+                            title: self.env._t('Success'),
+                            quotationNumber: quotation_number,
+				    });
                 });
             }
         }
@@ -97,6 +116,8 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
             return val
         }
     }
+
+
 
     SaveQuotationButton.template = 'SaveQuotationButton';
 

@@ -20,7 +20,7 @@ class PosOrder(models.Model):
             'quotation_name': ui_order.get('quotation_name') or False,
             'seller_id': ui_order.get('seller_id') or False,
             'seller_id_employee': ui_order.get('seller_id_employee') or False,
-            'analytic_account_tags': [(6, 0,  ui_order.get('analytic_account_tags'))] or False,
+            'analytic_account_tags': [(6, 0, ui_order.get('analytic_account_tags'))] or False,
             'analytic_account_id': ui_order.get('analytic_account_id') or False,
         })
         return data

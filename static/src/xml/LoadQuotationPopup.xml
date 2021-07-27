@@ -106,19 +106,6 @@
                     </div>
                 </div>
 
-                <!--                 <div class="div">-->
-                <!--                    <div class="flex-justify-content">-->
-                <!--                        <div class="quote-id">Customer:</div>-->
-                <!--                        <div class="quote-id-value"><t t-esc="state.customer" t-ref="customer"/></div>-->
-
-                <!--                    </div>-->
-                <!--                    <div class="flex-justify-content">-->
-                <!--                        <div class="note-save-quotation">Note:</div>-->
-                <!--                        <div>-->
-                <!--                             <textarea id="text_area" t-model="state.notes" t-ref="textarea" rows="3" cols="30"/>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
 
                 <div class="footer">
                     <div>
@@ -135,4 +122,6 @@
             </div>
         </div>
     </t>
+
+
 </odoo>

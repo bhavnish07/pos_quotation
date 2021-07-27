@@ -10,13 +10,14 @@ db.include({
         this.quotation_lines = {}
         this.quotation_lines_by_id = {}
     },
-
     add_quotations: function(quotations) {
         var self = this;
-        quotations.forEach(function(quotation) {
-            self.quotation_by_id[quotation.id] = quotation;
-            self.quotations[quotation.ref] = quotation;
-        })
+        if (quotations){
+            quotations.forEach(function(quotation) {
+                self.quotation_by_id[quotation.id] = quotation;
+                self.quotations[quotation.ref] = quotation;
+            })
+        }
     },
 
     add_quotations_lines: function(quotation_lines) {

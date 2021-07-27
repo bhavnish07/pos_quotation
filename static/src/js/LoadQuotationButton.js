@@ -31,39 +31,52 @@ odoo.define("pos_quotation.LoadQuotationButton", function(require){
                     model: 'pos.quotation',
                     method: 'get_quotation_details',
                     args: [selectedQuotation.id],
-                }).then(async function (quotation) {
-                    self.env.pos.add_new_order();
-                    let new_order = self.env.pos.get_order();
-                    let client = self.env.pos.db.get_partner_by_id(quotation.partner_id)
-                    if (quotation.partner_id && !client) {
-                         await self.env.pos.load_new_partners();
-                         client = self.env.pos.db.get_partner_by_id(quotation.partner_id);
-                    }
-                    new_order.set_client(client);
-                    quotation.lines.forEach(function(line) {
-                        var orderline = new pos_model.Orderline({}, {
-                            pos: self.env.pos,
-                            order: new_order,
-                            product: self.env.pos.db.get_product_by_id(line.product_id),
+                }).catch(function(unused, event) {
+                self.showPopup('SaveQuotationError', {
+                });
+                return;
+			     })
+                .then(async function (quotation) {
+                    if (quotation){
+                        self.env.pos.add_new_order();
+                        let new_order = self.env.pos.get_order();
+                        let client = self.env.pos.db.get_partner_by_id(quotation.partner_id)
+                        if (quotation.partner_id && !client) {
+                             await self.env.pos.load_new_partners();
+                             client = self.env.pos.db.get_partner_by_id(quotation.partner_id);
+                        }
+                        new_order.set_client(client);
+                        quotation.lines.forEach(function(line) {
+                            var orderline = new pos_model.Orderline({}, {
+                                pos: self.env.pos,
+                                order: new_order,
+                                product: self.env.pos.db.get_product_by_id(line.product_id),
+                            });
+                            orderline.set_unit_price(line.price_unit);
+                            orderline.set_discount(line.discount);
+                            orderline.set_quantity(line.qty, true);
+                            new_order.add_orderline(orderline);
                         });
-                        orderline.set_unit_price(line.price_unit);
-                        orderline.set_discount(line.discount);
-                        orderline.set_quantity(line.qty, true);
-                        new_order.add_orderline(orderline);
-                    });
-                    let quotation_tags = {};
-                    for (let quotation_tag of quotation.analytic_account_tags) {
-                        const selected_tag = self.env.pos.account_analytic_tags.find((tag) => tag.id === quotation_tag);
-                        quotation_tags[selected_tag.id] = selected_tag;
-                    }
-                    new_order.quotation_id = quotation.id;
-                    new_order.quotation_name = quotation.ref;
-                    new_order.seller_id = quotation.seller_id;
-                    new_order.seller_id_employee = quotation.employee_id;
-                    new_order.analytic_account_id = quotation.analytic_account_id;
-                    new_order.analytic_tags = quotation_tags;
-                    new_order.fiscal_position_id = quotation.fiscal_position_id;
-                    new_order.export_as_JSON()
+                        let quotation_tags = {};
+                        for (let quotation_tag of quotation.analytic_account_tags) {
+                            const selected_tag = self.env.pos.account_analytic_tags.find((tag) => tag.id === quotation_tag);
+                            quotation_tags[selected_tag.id] = selected_tag;
+                        }
+                        new_order.quotation_id = quotation.id;
+                        new_order.quotation_name = quotation.ref;
+                        new_order.seller_id = quotation.seller_id;
+                        new_order.seller_id_employee = quotation.employee_id;
+                        new_order.analytic_account_id = quotation.analytic_account_id;
+                        new_order.analytic_tags = quotation_tags;
+                        new_order.fiscal_position_id = quotation.fiscal_position_id;
+                        new_order.export_as_JSON()
+                     }
+                     self.showPopup('SaveQuotationError', {
+                            body: self.env._t('Quotation Loaded'),
+                            title: self.env._t('Success'),
+                            quotationNumber: quotation.quotation_name,
+				    });
+
                 });
             }
         }
@@ -79,7 +92,12 @@ odoo.define("pos_quotation.LoadQuotationButton", function(require){
                   model: 'pos.quotation',
                   method: 'search_read',
                   args: [[['company_id', '=', self.env.pos.company.id]]],
-                }).then(function (quotations) {
+                }).catch(function(unused, event) {
+                self.showPopup('SaveQuotationError', {
+                });
+                return;
+			     })
+                .then(function (quotations) {
                     resolve({'quotations': quotations});
                 });
             });

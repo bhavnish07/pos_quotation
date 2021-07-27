@@ -4,7 +4,7 @@
     <t t-name="SaveQuotationButton" owl="1">
         <span class="control-button js_save_quotation">
             <span> </span>
-            <span>Save Quotation</span>
+            <span>Create Quotation</span>
         </span>
     </t>
 
