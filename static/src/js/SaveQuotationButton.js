@@ -71,8 +71,8 @@ odoo.define("pos_quotation.SaveQuotationButton", function(require){
                         for (let i=0; i<counter;i++) {
                             self.currentOrder.remove_orderline(self.currentOrder.orderlines.models[0])
                         }
-                        self.env.pos.db.add_quotations(result[0]);
-
+                        self.env.pos.db.add_quotations(result[0])
+                        self.currentOrder.destroy({'reason':'abandon'});
                     }
                     self.showPopup('SaveQuotationError', {
                             body: self.env._t('Quotation Saved'),

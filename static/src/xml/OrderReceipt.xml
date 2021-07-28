@@ -16,13 +16,6 @@
                     Related Quotation
                     <span class="pos-receipt-right-align"><t t-esc="receipt.quotation.name"/></span></div></div>
             </t>
-<!--            <t t-if="receipt.notes">-->
-                <br/>
-                <div class="related-quotation">
-                <div>
-                    Customer
-                    <span class="pos-receipt-right-align"><t t-esc="receipt.quotation.notes"/></span></div></div>
-<!--            </t>-->
         </xpath>
     </t>
 
