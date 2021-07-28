@@ -31,4 +31,5 @@ This module allows the seller to quickly save quotation for load it n future
         'static/src/xml/OrderReceipt.xml',
     ],
     'installable': True,
+
 }
